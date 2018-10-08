@@ -102,3 +102,9 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+# Jupyter checkpoints
+**/.ipynb_checkpoints
+
+**/.idea
