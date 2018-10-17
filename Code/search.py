@@ -1,0 +1,24 @@
+# Python file for serching
+# No longer working on this, Logan took over this
+
+# Imports
+import requests
+import twitter
+import json
+import os
+
+# Authentication varaibles
+key = 'glxCFVTU1G99pm3j2ZvJ7QgW8'
+secret ='B2uQMSPQDDUnDRFahH8Ybq9G9on2Fcno28E0QGGJXtwpD5z0vK'
+token = '809941682619904000-ntJbBfP85eYfVyTFi6ILGV0GFYJAzzz'
+token_secret = 'aGiA9K5SjGMCs0zCvAoJEHOK8rFAswUV9FEpLKRJKocwz'
+auth = twitter.oauth.OAuth(token, token_secret, key, secret)
+api = twitter.Twitter(auth=auth)
+
+# Searching variables
+hashtag = "#funny"
+res = api.search.tweets(q=hashtag)
+
+print(res)
+
+
