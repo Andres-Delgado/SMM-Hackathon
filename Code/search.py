@@ -6,10 +6,10 @@ from TwitterSearch import *
 import datetime
 
 # Authentication varaibles
-CONSUMER_KEY = 'glxCFVTU1G99pm3j2ZvJ7QgW8'
-CONSUMER_SECRET ='B2uQMSPQDDUnDRFahH8Ybq9G9on2Fcno28E0QGGJXtwpD5z0vK'
-OAUTH_TOKEN = '809941682619904000-ntJbBfP85eYfVyTFi6ILGV0GFYJAzzz'
-OAUTH_TOKEN_SECRET = 'aGiA9K5SjGMCs0zCvAoJEHOK8rFAswUV9FEpLKRJKocwz'
+CONSUMER_KEY = ''
+CONSUMER_SECRET =''
+OAUTH_TOKEN = ''
+OAUTH_TOKEN_SECRET = ''
 
 #search tweets using TWitterSearch module
 #install with pip install TwitterSearch
@@ -106,7 +106,7 @@ def searchOverRange(hashtag, startY, startM, startD, endY, endM, endD, debug=0, 
 
     results = []
     for day in range(startD, endD):
-        results.append(search_by_hashtag("#turkey", startY, startM, day, endY, endM, day + 1, showTweets))
+        results.append(search_by_hashtag("#"+hashtag, startY, startM, day, endY, endM, day + 1, showTweets))
 
     if debug == 1:
         day = startD
