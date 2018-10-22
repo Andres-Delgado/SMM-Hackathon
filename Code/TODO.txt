@@ -1,4 +1,6 @@
 1. Create a python function for searching for tweets using a hashtag
+	1.1 Each person will run the search function themselves and fill one of
+		the partitions up.
 
 2. Create a python function for extracting requisite information from a set of
 tweets

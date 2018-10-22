@@ -6,10 +6,10 @@ from TwitterSearch import *
 import datetime
 
 # Authentication varaibles
-CONSUMER_KEY = ''
-CONSUMER_SECRET =''
-OAUTH_TOKEN = ''
-OAUTH_TOKEN_SECRET = ''
+CONSUMER_KEY = 'glxCFVTU1G99pm3j2ZvJ7QgW8'
+CONSUMER_SECRET ='B2uQMSPQDDUnDRFahH8Ybq9G9on2Fcno28E0QGGJXtwpD5z0vK'
+OAUTH_TOKEN = '809941682619904000-ntJbBfP85eYfVyTFi6ILGV0GFYJAzzz'
+OAUTH_TOKEN_SECRET = 'aGiA9K5SjGMCs0zCvAoJEHOK8rFAswUV9FEpLKRJKocwz'
 
 #search tweets using TWitterSearch module
 #install with pip install TwitterSearch
