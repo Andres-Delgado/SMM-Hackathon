@@ -2,6 +2,7 @@
 
 ## Setup
 # import libraries
+import glob
 import matplotlib
 # Uncomment this till - > there, if you dont care about seeing asian letters
 #matplotlib.use("pgf")
@@ -28,10 +29,10 @@ import pycountry as pc
 
 # Global variables
 DAYS_PER_HASHTAG = 7
-FILE_NAME = "../Data/Partition0.2-data.json"
+FILE_PATH = "../Data/Partition*.json"
 IMAGE_OUTPUT = "../Data/Images/"
 ITERATION_LIMIT= 50
-DEBUG = True
+DEBUG = False
 
 ## Helper Functions
 def language_data(data):
@@ -90,13 +91,16 @@ def best_worst(data, hashtag):
 
 def avg_occurances_based_on_followers(data):
 	total = sum(data['followers_count'])
-	if data['occurrences'] > 5000:
+	if data['occurrences'] > 15000:
+		bar_data[4]['total'] += total
+		bar_data[4]['count'] += 1
+	elif data['occurrences'] > 5000:
 		bar_data[3]['total'] += total
 		bar_data[3]['count'] += 1
 	elif data['occurrences'] > 1000:
 		bar_data[2]['total'] += total
 		bar_data[2]['count'] += 1
-	elif data['occurrences'] > 100:
+	elif data['occurrences'] > 250:
 		bar_data[1]['total'] += total
 		bar_data[1]['count'] += 1
 	else:
@@ -136,11 +140,19 @@ def cleanup():
 	bar[1] = bar_data[1]['total'] / bar_data[1]['count']
 	bar[2] = bar_data[2]['total'] / bar_data[2]['count']
 	bar[3] = bar_data[3]['total'] / bar_data[3]['count']
+	bar[4] = bar_data[4]['total'] / bar_data[4]['count']
 
 # Read JSON file
-with open(FILE_NAME) as f: # Replace this will a list of all files, then append them
-	raw = js.load(f)
-	f.close()
+raw = None
+for path in glob.glob(FILE_PATH):
+	print("Adding Path: " + path)
+	with open(path, encoding='utf8') as f: # Replace this will a list of all files, then append them
+		if raw == None:
+			raw = js.load(f)
+		else:
+			temp = js.load(f)
+			raw = {**raw, **temp}
+		f.close()
 
 ## Calculate Data
 pie_lang = {"en": 0}
@@ -159,8 +171,8 @@ worst_hashtag = {}
 worst_occurance = []
 popular = ""
 unpopular = ""
-bar_data = [{'count': 0, 'total': 0}, {'count': 0, 'total': 0}, {'count': 0, 'total': 0}, {'count': 0, 'total': 0}]
-bar = [0,0,0,0]
+bar_data = [{'count': 0, 'total': 0}, {'count': 0, 'total': 0}, {'count': 0, 'total': 0}, {'count': 0, 'total': 0}, {'count': 0, 'total': 0}]
+bar = [0,0,0,0,0]
 
 
 for hashtag in raw:
@@ -172,7 +184,7 @@ for hashtag in raw:
 
 	for day in range(DAYS_PER_HASHTAG):
 		# break counter
-		if break_counter > ITERATION_LIMIT:
+		if DEBUG and break_counter > ITERATION_LIMIT:
 			break
 		else:
 			break_counter +=1
@@ -256,14 +268,35 @@ plt.legend([popular, unpopular])
 plt.savefig(IMAGE_OUTPUT + 'best_worst_occurence.png', bbox_inches='tight')
 
 # Plot histogram of followers based on histogram
-ind = np.arange(4)
+ind = np.arange(5)
 plt.figure()
 plt.title("Avg Followers based on # of occurrences")
 plt.bar(ind, bar)
 plt.ylabel('Followers')
 plt.title('Avg Followers based on hashtag occurrences')
-plt.xticks(ind, ('0-99', '100-999', '1000-4,999', '5,000 >'))
+plt.xticks(ind, ('0-250', '250-1000', '1000-5,000', '5,000-15,000', '15,000 >'))
 plt.savefig(IMAGE_OUTPUT + 'avg_followers_based_on_occurance.png', bbox_inches='tight')
+
+# Print out Avg occurrence
+temp = sum(line_avg_data.values()) / len(line_avg_data.values())
+print("Avg Occurrence: " + str(temp))
+
+# Print out avg followers
+temp = sum(line_follow_data.values()) / len(line_follow_data.values())
+print("Avg Followers: " + str(temp))
+
+# print out avg retweets
+temp = sum(line_retweet_data.values()) / len(line_retweet_data.values())
+print("Avg retweets: " + str(temp))
+
+# print out avg favorite
+temp = sum(line_fav_data.values()) / len(line_fav_data.values())
+print("Avg Favorites: " + str(temp))
+
+# Most popular day for occurrences
+max_val = max(line_avg_data.values())
+day = list(line_avg_data.values()).index(max_val)
+print("Most popular day is " + str(1 + day) + " being " + str(max_val))
 
 if DEBUG:
 	print("Popular: " + popular)
