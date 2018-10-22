@@ -30,7 +30,7 @@ import pycountry as pc
 # Global variables
 DAYS_PER_HASHTAG = 7
 FILE_PATH = "../Data/Partition*.json"
-IMAGE_OUTPUT = "../Data/Images/"
+IMAGE_OUTPUT = "../Data/Results/"
 ITERATION_LIMIT= 50
 DEBUG = False
 
@@ -277,26 +277,35 @@ plt.title('Avg Followers based on hashtag occurrences')
 plt.xticks(ind, ('0-250', '250-1000', '1000-5,000', '5,000-15,000', '15,000 >'))
 plt.savefig(IMAGE_OUTPUT + 'avg_followers_based_on_occurance.png', bbox_inches='tight')
 
+# Write these to file
+f = open(IMAGE_OUTPUT + "data.txt", 'w', encoding='utf8')
+	
+
 # Print out Avg occurrence
 temp = sum(line_avg_data.values()) / len(line_avg_data.values())
 print("Avg Occurrence: " + str(temp))
+f.write("Avg Occurrence: " + str(temp) + "\n")
 
 # Print out avg followers
 temp = sum(line_follow_data.values()) / len(line_follow_data.values())
 print("Avg Followers: " + str(temp))
+f.write("Avg Followers: " + str(temp) + "\n")
 
 # print out avg retweets
 temp = sum(line_retweet_data.values()) / len(line_retweet_data.values())
 print("Avg retweets: " + str(temp))
+f.write("Avg retweets: " + str(temp) + "\n")
 
 # print out avg favorite
 temp = sum(line_fav_data.values()) / len(line_fav_data.values())
 print("Avg Favorites: " + str(temp))
+f.write("Avg Favorites: " + str(temp) + "\n")
 
 # Most popular day for occurrences
 max_val = max(line_avg_data.values())
 day = list(line_avg_data.values()).index(max_val)
 print("Most popular day is " + str(1 + day) + " being " + str(max_val))
+f.write("Most popular day is " + str(1 + day) + " being " + str(max_val) + "\n")
 
 if DEBUG:
 	print("Popular: " + popular)
